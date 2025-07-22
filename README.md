@@ -129,7 +129,30 @@ GitHub-Issue-Analyzer/
 │   └── requirements.txt
 ├── frontend/
 │   ├── src/
-│   └── public/
+│   │   ├── components/
+│   │   │   ├── AnalysisResult.tsx
+│   │   │   ├── AnalyzerForm.tsx
+│   │   │   ├── Header.tsx
+│   │   │   └── LoadingSpinner.tsx
+│   │   ├── services/
+│   │   │   ├── api.ts
+│   │   │   └── types/
+│   │   │       └── index.ts
+│   │   ├── App.tsx
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   └── vite-env.d.ts
+│   ├── .gitignore
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── postcss.config.js
+│   ├── tailwind.config.js
+│   ├── tsconfig.app.json
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   └── vite.config.ts
 └── README.md
 ```
 
