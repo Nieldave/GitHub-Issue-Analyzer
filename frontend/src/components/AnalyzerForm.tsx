@@ -15,7 +15,7 @@ const AnalyzerForm: React.FC<AnalyzerFormProps> = ({ onSubmit, isLoading, error 
   const [formError, setFormError] = useState<string | null>(null);
 
   const validateGitHubUrl = (url: string): boolean => {
-    const githubPattern = /^https?:\/\/(www\.)?github\.com\/[^\/]+\/[^\/]+\/?$/;
+    const githubPattern = /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9._-]+\/[a-zA-Z0-9._-]+\/?$/;
     return githubPattern.test(url);
   };
 
@@ -29,7 +29,7 @@ const AnalyzerForm: React.FC<AnalyzerFormProps> = ({ onSubmit, isLoading, error 
     }
 
     if (!validateGitHubUrl(repoUrl.trim())) {
-      setFormError('Please enter a valid GitHub repository URL (e.g., https://github.com/facebook/react)');
+      setFormError('Please enter a valid GitHub repository URL (e.g., https://github.com/owner/repo)');
       return;
     }
 
@@ -63,7 +63,7 @@ const AnalyzerForm: React.FC<AnalyzerFormProps> = ({ onSubmit, isLoading, error 
             value={repoUrl}
             onChange={(e) => setRepoUrl(e.target.value)}
             placeholder="https://github.com/facebook/react"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
             disabled={isLoading}
           />
         </div>
@@ -79,7 +79,7 @@ const AnalyzerForm: React.FC<AnalyzerFormProps> = ({ onSubmit, isLoading, error 
             onChange={(e) => setIssueNumber(e.target.value)}
             placeholder="12345"
             min="1"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-colors"
             disabled={isLoading}
           />
         </div>
@@ -94,7 +94,7 @@ const AnalyzerForm: React.FC<AnalyzerFormProps> = ({ onSubmit, isLoading, error 
         <button
           type="submit"
           disabled={isLoading}
-          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-medium py-2.5 px-4 rounded-md transition-colors duration-200 flex items-center justify-center space-x-2"
+          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white font-medium py-2.5 px-4 rounded-md transition-colors duration-200 flex items-center justify-center space-x-2"
         >
           {isLoading ? (
             <>

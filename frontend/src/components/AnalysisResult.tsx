@@ -1,5 +1,5 @@
-import React from 'react';
-import { MessageSquare, Tag, Star, AlertTriangle, CheckCircle } from 'lucide-react';
+import React, { useState } from 'react';
+import { MessageSquare, Tag, Star, AlertTriangle, CheckCircle, Copy, Check } from 'lucide-react';
 import { AnalysisResult as AnalysisResultType } from '../types';
 
 interface AnalysisResultProps {
@@ -36,7 +36,8 @@ const getTypeColor = (type: string) => {
 
 const getPriorityColor = (priority: string) => {
   const priorityMatch = priority.match(/^(\d+)/);
-  const priorityNum = priorityMatch ? parseInt(priorityMatch[1]) : 3;
+  const priorityNum = priorityMatch ? parseInt(priorityMatch[1], 10) : 3;
+  
   if (priorityNum >= 4) return 'bg-red-100 text-red-800 border-red-200';
   if (priorityNum >= 3) return 'bg-orange-100 text-orange-800 border-orange-200';
   if (priorityNum >= 2) return 'bg-yellow-100 text-yellow-800 border-yellow-200';
@@ -44,14 +45,43 @@ const getPriorityColor = (priority: string) => {
 };
 
 const AnalysisResult: React.FC<AnalysisResultProps> = ({ result }) => {
+  const [copied, setCopied] = useState(false);
+
+  const copyToClipboard = async () => {
+    try {
+      const jsonString = JSON.stringify(result, null, 2);
+      await navigator.clipboard.writeText(jsonString);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy to clipboard:', err);
+    }
+  };
+
   return (
     <div className="bg-white rounded-lg border border-gray-200 shadow-sm">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-gray-200">
+      <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <h3 className="text-lg font-semibold text-gray-900 flex items-center space-x-2">
           <MessageSquare className="w-5 h-5 text-gray-600" />
           <span>Analysis Results</span>
         </h3>
+        <button
+          onClick={copyToClipboard}
+          className="flex items-center space-x-2 px-3 py-1.5 text-sm font-medium text-gray-700 bg-gray-100 hover:bg-gray-200 border border-gray-300 rounded-md transition-colors duration-200"
+        >
+          {copied ? (
+            <>
+              <Check className="w-4 h-4 text-green-600" />
+              <span className="text-green-600">Copied!</span>
+            </>
+          ) : (
+            <>
+              <Copy className="w-4 h-4" />
+              <span>Copy JSON</span>
+            </>
+          )}
+        </button>
       </div>
 
       {/* Content */}

@@ -12,6 +12,6 @@ export interface AnalysisResult {
 }
 
 export interface ApiError {
-  message: string;
+  detail: string;
   status?: number;
 }

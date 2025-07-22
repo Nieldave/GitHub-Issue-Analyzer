@@ -30,15 +30,17 @@ export const analyzeIssue = async (data: AnalysisRequest): Promise<AnalysisResul
           errorMessage = errorData.detail;
         }
       } catch {
-        // If we can't parse the error response, use status-based messages
+        // Status-based error messages
         if (response.status === 404) {
-          errorMessage = 'Issue not found. Please check the repository URL and issue number.';
+          errorMessage = 'Repository or issue not found. Please check the URL and issue number.';
         } else if (response.status === 400) {
           errorMessage = 'Invalid request. Please check the repository URL format.';
         } else if (response.status === 502) {
-          errorMessage = 'Failed to fetch data from GitHub API. Please check if the repository exists and is public.';
+          errorMessage = 'Failed to fetch data from GitHub API. Please try again.';
         } else if (response.status === 500) {
           errorMessage = 'Internal server error during analysis. Please try again later.';
+        } else if (response.status === 403) {
+          errorMessage = 'GitHub API rate limit exceeded or repository is private.';
         }
       }
       
